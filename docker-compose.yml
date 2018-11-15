@@ -1,0 +1,29 @@
+version: "3.6"
+
+services:
+  app:
+    build: ./docker/app
+    links:
+      - db
+    ports:
+      - "8080:80"
+    volumes:
+      - "./src:/var/www/html"
+      - "./modules:/var/www/modules"
+    environment:
+      PHP_EXTENSION_XDEBUG: ${PHP_EXTENSION_XDEBUG}
+      STARTUP_COMMAND_1: "composer install"
+      STARTUP_COMMAND_2: "test -e app/etc/env.php && echo 'Magento already installed' || bin/magento setup:install --base-url=http://127.0.0.1:8080/ --backend-frontname=${MAGENTO_ADMIN_FRONTNAME} --db-host=${MYSQL_DB_HOST} --db-name=${MYSQL_DATABASE} --db-user=${MYSQL_USER} --db-password=${MYSQL_PASSWORD} --admin-firstname=${MAGENTO_ADMIN_FIRSTNAME} --admin-lastname=${MAGENTO_ADMIN_LASTNAME} --admin-email=${MAGENTO_ADMIN_EMAIL} --admin-user=${MAGENTO_ADMIN_USER} --admin-password=${MAGENTO_ADMIN_PASSWORD} --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1"
+
+  db:
+    image: mysql:5.6
+    volumes:
+      - "db-data:/var/lib/mysql/data"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+volumes:
+  db-data:

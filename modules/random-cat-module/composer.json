@@ -1,0 +1,13 @@
+{
+  "name": "orba/random-cat-module",
+  "description": "Shows random cat images instead of product images",
+  "type": "magento2-module",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Orba\\RandomCat\\": ""
+    }
+  }
+}
