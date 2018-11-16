@@ -2,6 +2,7 @@ FROM thecodingmachine/php:7.1-v2-slim-apache
 
 USER root
 
+RUN apt-get update
 RUN cd /usr/local/lib/thecodingmachine-php/extensions/current/bcmath/ && ./install.sh
 RUN cd /usr/local/lib/thecodingmachine-php/extensions/current/gd/ && ./install.sh
 RUN cd /usr/local/lib/thecodingmachine-php/extensions/current/intl/ && ./install.sh
