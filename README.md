@@ -42,9 +42,10 @@ You need to have Docker and Docker-Compose installed on your local machine.
 4. CD to project root and run `docker-compose up`.
 5. Go grab a coffee ;-). Installation will take some time.
 6. Application will be accessible by the following address: `http://127.0.0.1:8080/`.
-7. Unit tests can be executed by running the following command: `docker exec -it orbam2cats_app_1 sh -c "cd /var/www/html/ && ./vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist ./../modules/random-cat-module"`.
-8. Composer can be executed by running the following command: `docker exec -it orbam2cats_app_1 sh -c "cd /var/www/html && composer"`.
-9. Magento console commands can be executed by running the following command: `docker exec -it orbam2cats_app_1 sh -c "cd /var/www/html && bin/magento"`.
+7. Unit tests can be executed by running the following command: `docker exec -it <CONTAINER_NAME> sh -c "cd /var/www/html/ && ./vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist ./../modules/random-cat-module"`.
+8. Composer can be executed by running the following command: `docker exec -it <CONTAINER_NAME> sh -c "cd /var/www/html && composer"`.
+9. Magento console commands can be executed by running the following command: `docker exec -it <CONTAINER_NAME> sh -c "cd /var/www/html && bin/magento"`.
+10. `<CONTAINER_NAME>` can be checked by running the following command: `docker ps`. It will be something like `orbam2cats_app_1_ed01e2011bb6`.
 
 ### Using PHP, Composer, MySQL and web server from your local machine
 
