@@ -7,11 +7,31 @@ namespace Orba\RandomCat\Model;
  */
 class Api
 {
+
     /**
-     * Logging instance
+     * @var \Magento\Framework\HTTP\Adapter\CurlFactory
+     */
+    protected $_curl_factory;
+
+    /**
+     * @var \Magento\Framework\Json\Helper\Data
+     */
+    protected $_json_helper;
+
+    /**
+     * @var \Orba\RandomCat\Helper\Data
+     */
+    protected $_helper;
+
+    /**
      * @var \Orba\RandomCat\Logger\Logger
      */
     protected $_logger;
+
+    /**
+     * @var \Magento\Framework\Serialize\Serializer\Json
+     */
+    protected $_json_serializer;
 
     /**
      * Constructs a new instance.
@@ -34,26 +54,6 @@ class Api
         $this->_helper          = $helper;
         $this->_logger          = $logger;
         $this->_json_serializer = $json_serializer;
-    }
-
-    /**
-     * Determines if api enabled.
-     *
-     * @return     boolean  True if api enabled, False otherwise.
-     */
-    public function isApiEnabled()
-    {
-        return $this->getHelper()->getGeneralConfig('enable');
-    }
-
-    /**
-     * Gets the curl factory.
-     *
-     * @return     string  The curl factory.
-     */
-    public function getCurlFactory()
-    {
-        return $this->_curl_factory;
     }
 
     /**
@@ -139,7 +139,7 @@ class Api
     /**
      * Loads a string cat image url from random cat api.
      *
-     * @return     string  Json response from the api
+     * @return     array  Json response from the api
      */
     public function loadFromApi()
     {
@@ -177,7 +177,6 @@ class Api
             '1.1',
             ["Content-Type:application/json"]
         );
-        $result = $http_adapter->read();
-        return $result;
+        return $http_adapter->read();
     }
 }
