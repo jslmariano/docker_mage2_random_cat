@@ -36,16 +36,6 @@ class CustomImage extends \Magento\Catalog\Block\Product\Image
     }
 
     /**
-     * Determines if a pi enabled.
-     *
-     * @return     boolean  True if a pi enabled, False otherwise.
-     */
-    public function isAPiEnabled()
-    {
-        return $this->_cat_api->isApiEnabled();
-    }
-
-    /**
      * Gets the cat not found.
      *
      * @return     string  The cat not found.
