@@ -22,6 +22,7 @@ class CustomImage extends \Magento\Catalog\Block\Product\Image
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
+        \Orba\RandomCat\Helper\Data $helper,
         \Orba\RandomCat\Model\Api $cat_api,
         array $data = []
     ) {
@@ -31,6 +32,7 @@ class CustomImage extends \Magento\Catalog\Block\Product\Image
         }
         parent::__construct($context, $data);
         $this->_cat_api = $cat_api;
+        $this->_helper = $helper;
     }
 
     /**
@@ -70,7 +72,7 @@ class CustomImage extends \Magento\Catalog\Block\Product\Image
      */
     public function getImageUrl()
     {
-        if (!$this->isAPiEnabled()) {
+        if (!$this->_helper->getGeneralConfig('enable')) {
             return $this->getOriginalImageUrl();
         }
 
