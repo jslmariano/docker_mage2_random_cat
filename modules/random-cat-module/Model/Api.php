@@ -25,13 +25,15 @@ class Api
         \Magento\Framework\HTTP\Adapter\CurlFactory $curl_factory,
         \Magento\Framework\Json\Helper\Data $json_helper,
         \Orba\RandomCat\Helper\Data $helper,
-        \Orba\RandomCat\Logger\Logger $logger
+        \Orba\RandomCat\Logger\Logger $logger,
+        \Magento\Framework\Serialize\Serializer\Json $json_serializer
 
     ) {
-        $this->_curl_factory = $curl_factory;
-        $this->_json_helper  = $json_helper;
-        $this->_helper       = $helper;
-        $this->_logger       = $logger;
+        $this->_curl_factory    = $curl_factory;
+        $this->_json_helper     = $json_helper;
+        $this->_helper          = $helper;
+        $this->_logger          = $logger;
+        $this->_json_serializer = $json_serializer;
     }
 
     /**
@@ -156,13 +158,7 @@ class Api
             return array();
         }
 
-        if (!$this->_helper->isJSON($body)) {
-            $this->getLogger()->log('notice','API invalid json reponse', array('body' => $body));
-            return array();
-        }
-
-        $response = json_decode($body, true);
-        return $response;
+        return $this->_json_serializer->unserialize($body);
     }
 
     /**
