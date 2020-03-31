@@ -4,7 +4,7 @@ Random Cat Magento 2 Project
 Overview
 --------
 
-The purpose of this repository is just to have fun with Magento 2 Modules.
+The purpose of this repository is to containerize the applciation and have fun with Magento 2 Modules.
 
 Random Cat Magento 2 Project is a simple Magento 2 Commerce installation with sample data and one empty local module.
 Your task will be to fill in this module with code to achieve the following feature:
