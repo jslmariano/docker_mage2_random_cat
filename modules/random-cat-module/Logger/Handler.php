@@ -9,6 +9,7 @@ use \Magento\Framework\Logger\Handler\Base;
  */
 class Handler extends Base
 {
+    const FILE_NAME = '/var/log/random_cat_images.log';
     /**
      * Logging level
      * @var int
@@ -19,5 +20,5 @@ class Handler extends Base
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/random_cat_images.log';
+    protected $fileName = HANDLER::FILE_NAME;
 }
