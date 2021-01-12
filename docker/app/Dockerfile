@@ -1,4 +1,4 @@
-FROM thecodingmachine/php:7.1-v2-slim-apache
+FROM thecodingmachine/php:7.2-v2-slim-apache
 
 USER root
 
