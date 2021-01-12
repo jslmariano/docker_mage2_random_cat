@@ -1,12 +1,20 @@
 version: "3.6"
 
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
 services:
+
+### MAGENTO APP ################################################
   app:
     build: ./docker/app
     links:
-      - db
+      - mysql
     depends_on:
-      - db
+      - mysql
     ports:
       - "8080:80"
     volumes:
@@ -16,6 +24,9 @@ services:
       PHP_EXTENSION_XDEBUG: ${PHP_EXTENSION_XDEBUG}
       STARTUP_COMMAND_1: "composer install"
       STARTUP_COMMAND_2: "test -e app/etc/env.php && echo 'Magento already installed' || bin/magento setup:install --base-url=http://127.0.0.1:8080/ --backend-frontname=${MAGENTO_ADMIN_FRONTNAME} --db-host=${MYSQL_DB_HOST} --db-name=${MYSQL_DATABASE} --db-user=${MYSQL_ROOT_USERNAME} --db-password=${MYSQL_ROOT_PASSWORD} --admin-firstname=${MAGENTO_ADMIN_FIRSTNAME} --admin-lastname=${MAGENTO_ADMIN_LASTNAME} --admin-email=${MAGENTO_ADMIN_EMAIL} --admin-user=${MAGENTO_ADMIN_USER} --admin-password=${MAGENTO_ADMIN_PASSWORD} --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1"
+    networks:
+      - frontend
+      - backend
 
 ### phpMyAdmin ###########################################
   phpmyadmin:
@@ -28,9 +39,37 @@ services:
     ports:
       - "8082:80"
     depends_on:
-      - db
+      - mysql
+    networks:
+      - frontend
+      - backend
 
-  db:
+### Mailhog ################################################
+  mailhog:
+    build: ./docker/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - frontend
+      - backend
+
+### Portainer ################################################
+  portainer:
+    build:
+      context: ./docker/portainer
+    volumes:
+      - ${DATA_PATH_HOST}/portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    ports:
+      - 9010:9000
+    networks:
+      - backend
+
+### MYSQL ################################################
+  mysql:
     image: mysql:5.7
     volumes:
       - "db-data:/var/lib/mysql/data"
@@ -39,6 +78,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - frontend
+      - backend
 
 volumes:
   db-data:

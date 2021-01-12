@@ -1,7 +1,7 @@
 .idea
 
-/.env
-/src/*
+# /.env
+# /src/*
 !/src/auth.json.sample
 !/src/composer.json
 !/src/composer.lock
